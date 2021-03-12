@@ -1,9 +1,12 @@
 import { Button } from "@material-ui/core";
 import React, { useState, useContext } from "react";
+import { AlertContext } from "../context/alert/alertContext";
 import { FirebaseContext } from "../context/firebase/firebaseContext";
+import DescriptionAlerts from "../DescriptionAlerts/DescriptionAlerts";
 
 function AddContact() {
   const { addContact } = useContext(FirebaseContext);
+  const { show, hide, alert } = useContext(AlertContext);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -15,9 +18,14 @@ function AddContact() {
     setName("");
     setEmail("");
     setPhone("");
+    show();
+    setInterval(() => {
+      hide();
+    }, 2000);
   };
   return (
     <div className="ui main">
+      {alert.visible && <DescriptionAlerts />}
       <h2>Add Contact</h2>
       <form className="ui form">
         <div className="field">

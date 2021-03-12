@@ -1,6 +1,6 @@
 import Axios from "axios";
 import { useReducer } from "react";
-import { ADD_CONTACT, FETCH_CONTACTS } from "../types";
+import { ADD_CONTACT, FETCH_CONTACTS, REMOVE_CONTACT } from "../types";
 import { FirebaseContext } from "./firebaseContext";
 import { firebaseReducer } from "./firebaseReducer";
 
@@ -21,10 +21,10 @@ export default function FirebaseState({ children }) {
         id: key,
       };
     });
-    let contacts = Object.values(payload);
+
     dispatch({
       type: FETCH_CONTACTS,
-      payload: contacts,
+      payload,
     });
   };
 
@@ -48,11 +48,19 @@ export default function FirebaseState({ children }) {
       console.log(error);
     }
   };
+  const removeContact = async (id) => {
+    await Axios.delete(`${url}/contacts/${id}.json`);
+    dispatch({
+      type: REMOVE_CONTACT,
+      payload: id,
+    });
+  };
   return (
     <FirebaseContext.Provider
       value={{
         fetchContacts,
         addContact,
+        removeContact,
         contacts: state.contacts,
       }}
     >
