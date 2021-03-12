@@ -15,8 +15,8 @@ function ContactCard({ contacts }) {
   return (
     <>
       {open && <ModalItem open={open} handleClose={handleClose} />}
-      {contacts.map((contact) => (
-        <ContactList contact={contact} handleOpen={handleOpen} />
+      {contacts.map((contact, i) => (
+        <ContactList contact={contact} handleOpen={handleOpen} key={i} />
       ))}
     </>
   );

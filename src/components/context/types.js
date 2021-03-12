@@ -1,0 +1,3 @@
+export const ADD_CONTACT = "ADD_CONTACT";
+export const FETCH_CONTACTS = "FETCH_CONTACTS";
+export const REMOVE_CONTACT = "REMOVE_CONTACT";
