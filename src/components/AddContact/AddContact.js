@@ -3,11 +3,17 @@ import React, { useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { addContact, show, hide } from "../redux/action";
 import DescriptionAlerts from "../DescriptionAlerts/DescriptionAlerts";
+import { Email } from "@material-ui/icons";
 
 function AddContact() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
+  const initialState = {
+    name: "",
+    email: "",
+    phone: "",
+  };
+
+  const [contact, setContact] = useState(initialState);
+  const { name, email, phone } = contact;
   const dispatch = useDispatch();
   const alert = useSelector((state) => state.alert);
 
@@ -17,9 +23,7 @@ function AddContact() {
       return console.log("form not valid");
     }
     addContact(name, email, phone);
-    setName("");
-    setEmail("");
-    setPhone("");
+    setContact(initialState);
     dispatch(show());
     setInterval(() => {
       dispatch(hide());
@@ -27,14 +31,19 @@ function AddContact() {
   };
   return (
     <div className="ui main">
-      {alert.visible && <DescriptionAlerts />}
+      {!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
+        email
+      ) && <DescriptionAlerts type="error" title="Danger" text="No" />}
+      {alert.visible && (
+        <DescriptionAlerts type="success" title="Success" text="" />
+      )}
       <h2>Add Contact</h2>
       <form className="ui form">
         <div className="field">
           <label>Name</label>
           <input
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => setContact({ ...contact, name: e.target.value })}
             type="text"
             name="name"
             placeholder="Name"
@@ -44,7 +53,7 @@ function AddContact() {
           <label>Email</label>
           <input
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setContact({ ...contact, email: e.target.value })}
             type="text"
             name="email"
             placeholder="Email"
@@ -54,7 +63,7 @@ function AddContact() {
           <label>Phone</label>
           <input
             value={phone}
-            onChange={(e) => setPhone(e.target.value)}
+            onChange={(e) => setContact({ ...contact, phone: e.target.value })}
             type="text"
             name="phone"
             placeholder="Phode"

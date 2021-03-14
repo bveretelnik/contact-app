@@ -10,13 +10,13 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-function DescriptionAlerts() {
+function DescriptionAlerts({ type, title, text }) {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <Alert severity="success">
-        <AlertTitle>Success</AlertTitle>
-        Contact — <strong>check it out!</strong>
+      <Alert severity={type}>
+        <AlertTitle>{title}</AlertTitle>
+        Contact — <strong>{text} check it out!</strong>
       </Alert>
     </div>
   );
