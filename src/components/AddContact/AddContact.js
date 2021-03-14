@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { addContact, show, hide } from "../redux/action";
 import DescriptionAlerts from "../DescriptionAlerts/DescriptionAlerts";
-import { Email } from "@material-ui/icons";
+import { useForm } from "react-hook-form";
 
 function AddContact() {
   const initialState = {
@@ -11,7 +11,7 @@ function AddContact() {
     email: "",
     phone: "",
   };
-
+  const { register, handleSubmit } = useForm();
   const [contact, setContact] = useState(initialState);
   const { name, email, phone } = contact;
   const dispatch = useDispatch();
@@ -33,12 +33,14 @@ function AddContact() {
     <div className="ui main">
       {!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
         email
-      ) && <DescriptionAlerts type="error" title="Danger" text="No" />}
+      ) && (
+        <DescriptionAlerts type="error" title="Danger" text="Email is not" />
+      )}
       {alert.visible && (
         <DescriptionAlerts type="success" title="Success" text="" />
       )}
       <h2>Add Contact</h2>
-      <form className="ui form">
+      <form className="ui form" onSubmit={handleSubmit}>
         <div className="field">
           <label>Name</label>
           <input
@@ -46,6 +48,7 @@ function AddContact() {
             onChange={(e) => setContact({ ...contact, name: e.target.value })}
             type="text"
             name="name"
+            ref={register({ required: false, minLength: 2, maxLength: 20 })}
             placeholder="Name"
           />
         </div>
