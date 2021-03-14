@@ -1,26 +1,28 @@
 import { Button } from "@material-ui/core";
-import React, { useState, useContext } from "react";
-import { AlertContext } from "../context/alert/alertContext";
-import { FirebaseContext } from "../context/firebase/firebaseContext";
+import React, { useState } from "react";
+import { connect, useDispatch, useSelector } from "react-redux";
+import { addContact, show, hide } from "../redux/action";
 import DescriptionAlerts from "../DescriptionAlerts/DescriptionAlerts";
 
 function AddContact() {
-  const { addContact } = useContext(FirebaseContext);
-  const { show, hide, alert } = useContext(AlertContext);
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const dispatch = useDispatch();
+  const alert = useSelector((state) => state.alert);
 
-  const AddContact = (e) => {
+  const AddContactToList = (e) => {
     e.preventDefault();
+    if (!name.trim() || !email.trim() || !phone.trim()) {
+      return console.log("form not valid");
+    }
     addContact(name, email, phone);
     setName("");
     setEmail("");
     setPhone("");
-    show();
+    dispatch(show());
     setInterval(() => {
-      hide();
+      dispatch(hide());
     }, 2000);
   };
   return (
@@ -58,12 +60,17 @@ function AddContact() {
             placeholder="Phode"
           />
         </div>
-        <Button onClick={AddContact} variant="contained" color="primary">
+        <Button onClick={AddContactToList} variant="contained" color="primary">
           Add
         </Button>
       </form>
     </div>
   );
 }
+const mapDispatchToProps = {
+  addContact,
+  show,
+  hide,
+};
 
-export default AddContact;
+export default connect(null, mapDispatchToProps)(AddContact);
