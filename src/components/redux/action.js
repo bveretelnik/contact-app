@@ -5,6 +5,7 @@ import {
   REMOVE_CONTACT,
   SHOW_ALERT,
   HIDE_ALERT,
+  CATCH_CONTACT,
 } from "./type";
 
 const url = "https://contact-app-9b9ae-default-rtdb.firebaseio.com";
@@ -54,6 +55,14 @@ export const removeContact = async (id) => {
       type: REMOVE_CONTACT,
       payload: id,
     });
+  };
+};
+
+export const catchContact = (id) => {
+  // const res = await Axios.get(`${url}/contacts.json`);
+  return {
+    type: CATCH_CONTACT,
+    payload: id,
   };
 };
 

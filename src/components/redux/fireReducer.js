@@ -1,7 +1,14 @@
-import { ADD_CONTACT, FETCH_CONTACTS, REMOVE_CONTACT } from "./type";
+import {
+  ADD_CONTACT,
+  CATCH_CONTACT,
+  EDIT_CONTACT,
+  FETCH_CONTACTS,
+  REMOVE_CONTACT,
+} from "./type";
 
 const initialState = {
   contacts: [],
+  contact: "",
 };
 export const fireReducer = (state = initialState, { type, payload }) => {
   switch (type) {
@@ -13,6 +20,11 @@ export const fireReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         contacts: state.contacts.filter((contact) => contact.id !== payload),
+      };
+    case CATCH_CONTACT:
+      return {
+        ...state,
+        contact: state.contacts.filter((contact) => contact.id === payload),
       };
     default:
       return state;

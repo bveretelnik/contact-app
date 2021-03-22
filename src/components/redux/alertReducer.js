@@ -8,7 +8,7 @@ export const alertReducer = (state = initialState, { type }) => {
     case SHOW_ALERT:
       return { ...state, visible: true };
     case HIDE_ALERT:
-      return { state, visible: false };
+      return { ...state, visible: false };
     default:
       return state;
   }

@@ -4,9 +4,14 @@ import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
+import ShareIcon from "@material-ui/icons/Share";
 import Typography from "@material-ui/core/Typography";
-import { removeContact } from "../../redux/action";
+import { removeContact, catchContact } from "../../redux/action";
 import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
   root: {
@@ -26,9 +31,13 @@ const useStyles = makeStyles({
   pos: {
     marginBottom: 12,
   },
+  button: {
+    margin: "4px 9px",
+  },
 });
 function ContactList({ contact, handleOpen }) {
   const classes = useStyles();
+  const dispatch = useDispatch();
   return (
     <Card className={classes.root} variant="outlined">
       <CardContent>
@@ -39,7 +48,7 @@ function ContactList({ contact, handleOpen }) {
         >
           {contact.name}
         </Typography>
-        <Typography variant="h5" component="h2">
+        <Typography variant="h5" component="h2" style={{ color: "#00467F" }}>
           {contact.email}
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
@@ -48,20 +57,33 @@ function ContactList({ contact, handleOpen }) {
       </CardContent>
       <CardActions>
         <Button
+          className={classes.button}
           onClick={handleOpen}
           variant="outlined"
           color="primary"
           size="small"
         >
-          Share
+          <ShareIcon /> &nbsp; Share
         </Button>
         <Button
+          component={Link}
+          to="/edit"
+          className={classes.button}
+          variant="outlined"
+          color="inherit"
+          size="small"
+          onClick={() => dispatch(catchContact(contact.id))}
+        >
+          <EditIcon /> &nbsp; Edit
+        </Button>
+        <Button
+          className={classes.button}
           onClick={() => removeContact(contact.id)}
           variant="outlined"
           color="secondary"
           size="small"
         >
-          Delete
+          <DeleteIcon /> &nbsp; Delete
         </Button>
       </CardActions>
     </Card>

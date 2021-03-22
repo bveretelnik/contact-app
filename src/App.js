@@ -1,15 +1,20 @@
 import "./App.css";
-import AddContact from "./components/AddContact/AddContact";
-import ContactCard from "./components/ContactCard/ContactCard";
 import Header from "./components/Header/Header";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Main from "./components/Main";
+import EditContact from "./components/AddContact/EditContact";
 
 function App() {
   return (
-    <div className="ui container">
-      <Header />
-      <AddContact />
-      <ContactCard />
-    </div>
+    <Router>
+      <div className="ui container">
+        <Header />
+        <Switch>
+          <Route exact path="/" component={Main} />
+          <Route path="/edit" component={EditContact} />
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
